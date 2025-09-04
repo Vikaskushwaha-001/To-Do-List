@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Beautiful To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <span>TaskFlow</span>
+            </div>
+            
+            <div class="header-actions">
+                <label class="theme-toggle">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="theme-slider"></span>
+                </label>
+                
+                <button class="btn btn-primary" id="add-task-btn">
+                    <i class="fas fa-plus"></i>
+                    Add Task
+                </button>
+            </div>
+        </header>
+        
+        <div class="main-layout">
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Views</h3>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item active" data-filter="all">
+                            <i class="fas fa-inbox"></i>
+                            <span>All Tasks</span>
+                            <span class="badge" id="all-count">5</span>
+                        </li>
+                        <li class="sidebar-item" data-filter="active">
+                            <i class="fas fa-circle"></i>
+                            <span>Active</span>
+                            <span class="badge" id="active-count">4</span>
+                        </li>
+                        <li class="sidebar-item" data-filter="completed">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Completed</span>
+                            <span class="badge" id="completed-count">1</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Filters</h3>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item" data-filter="today">
+                            <i class="fas fa-calendar-day"></i>
+                            <span>Due Today</span>
+                            <span class="badge" id="today-count">1</span>
+                        </li>
+                        <li class="sidebar-item" data-filter="high">
+                            <i class="fas fa-flag"></i>
+                            <span>High Priority</span>
+                            <span class="badge" id="high-count">2</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Tags</h3>
+                    <ul class="sidebar-list">
+                        <li class="sidebar-item" data-tag="Work">
+                            <i class="fas fa-tag" style="color: #ef476f"></i>
+                            <span>Work</span>
+                        </li>
+                        <li class="sidebar-item" data-tag="Personal">
+                            <i class="fas fa-tag" style="color: #06d6a0"></i>
+                            <span>Personal</span>
+                        </li>
+                        <li class="sidebar-item" data-tag="Health">
+                            <i class="fas fa-tag" style="color: #118ab2"></i>
+                            <span>Health</span>
+                        </li>
+                        <li class="sidebar-item" data-tag="Learning">
+                            <i class="fas fa-tag" style="color: #ffd166"></i>
+                            <span>Learning</span>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            
+            <main class="content">
+                <div class="content-header">
+                    <h2 class="content-title" id="content-title">All Tasks</h2>
+                    
+                    <div class="task-filters">
+                        <input
+                            type="text"
+                            placeholder="Search tasks..."
+                            class="form-input"
+                            id="search-input"
+                            style="width: 200px;"
+                        >
+                        <select class="filter-select" id="sort-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="dueDate">Due Date</option>
+                            <option value="priority">Priority</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="add-task-form" id="add-task-form" style="display: none;">
+                    <h3>Add New Task</h3>
+                    
+                    <form id="task-form">
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-input"
+                                placeholder="What do you need to do?"
+                                id="task-title"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <select class="form-input" id="task-priority">
+                                    <option value="low">Low Priority</option>
+                                    <option value="medium" selected>Medium Priority</option>
+                                    <option value="high">High Priority</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <input
+                                    type="date"
+                                    class="form-input"
+                                    id="task-dueDate"
+                                >
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <select class="form-input" id="task-tags">
+                                <option value="">Select a tag (optional)</option>
+                                <option value="Work">Work</option>
+                                <option value="Personal">Personal</option>
+                                <option value="Health">Health</option>
+                                <option value="Learning">Learning</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="cancel-task-btn">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Add Task
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="task-list" id="task-list">
+                    <!-- Tasks will be added here dynamically -->
+                </div>
+            </main>
+        </div>
+        
+        <div class="onboarding" id="onboarding" style="display: none;">
+            <div class="onboarding-content">
+                <div class="onboarding-step">
+                    <h2 class="onboarding-title" id="onboarding-title">Welcome to TaskFlow</h2>
+                    <p class="onboarding-description" id="onboarding-description">Your beautiful and intuitive task manager. Let's get started with a quick tour of the main features.</p>
+                </div>
+                
+                <div class="onboarding-footer">
+                    <div class="onboarding-dots">
+                        <div class="onboarding-dot active" data-step="1"></div>
+                        <div class="onboarding-dot" data-step="2"></div>
+                        <div class="onboarding-dot" data-step="3"></div>
+                        <div class="onboarding-dot" data-step="4"></div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" id="skip-onboarding">
+                            Skip
+                        </button>
+                        <button class="btn btn-primary" id="next-onboarding">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
